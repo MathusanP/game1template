@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3 
 
 from map import rooms
 
@@ -62,7 +62,6 @@ def display_room(room):
     description of the room and a blank line again. For example:
 
     >>> display_room(rooms["Office"])
-    
     <BLANKLINE>
     THE GENERAL OFFICE
     <BLANKLINE>
@@ -76,7 +75,7 @@ def display_room(room):
     """
     try:
         print();
-        print(room['name']);
+        print(room['name'].upper());
         print();
         print(room['description'])
         print()
@@ -135,8 +134,10 @@ def print_menu(exits):
     # COMPLETE THIS PART:
     # Iterate over available exits:
     #     and for each exit print the appropriate menu line
+    
+    for x in exits:
+        print(f"GO {x} to {exits[x]}")
 
-    print(exits)
 
 
 def is_valid_exit(exits, user_input):
