@@ -159,14 +159,13 @@ def is_valid_exit(exits, user_input):
     >>> is_valid_exit(rooms["Parking"]["exits"], "east")
     True
     """
-    from map import rooms
-
-    roomlist = list(rooms.keys())[0]
     isValid = False
-
-    if exits[user_input] in rooms[roomlist]:
+    
+    if user_input in exits:
         isValid = True
+    
     return isValid
+
         
 
 
