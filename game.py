@@ -1,7 +1,7 @@
 #!/usr/bin/python3 
 
 from map import rooms
-
+import string;
 
 
 def remove_punct(text):
@@ -50,8 +50,11 @@ def normalise_input(user_input):
     'take lamp'
     >>> normalise_input("HELP!!!!!!!")
     'help'
-    """
-    pass
+    """ 
+    user_input = user_input.translate(str.maketrans('','', string.punctuation))
+    user_input = user_input.strip().lower();
+    
+    return user_input
 
     
 def display_room(room):
@@ -111,7 +114,7 @@ def print_menu_line(direction, leads_to):
     >>> print_menu_line("south", "MJ and Simon's room")
     Go SOUTH to MJ and Simon's room.
     """
-    print(f"Go {direction.upper()} to {leads_to}")
+    print(f"Go {direction.upper()} to {leads_to}.")
 
 
 def print_menu(exits):
@@ -136,7 +139,7 @@ def print_menu(exits):
     #     and for each exit print the appropriate menu line
     
     for x in exits:
-        print(f"GO {x} to {exits[x]}")
+        print(f"\nGO {x} to {exits[x]}")
 
 
 
@@ -156,7 +159,15 @@ def is_valid_exit(exits, user_input):
     >>> is_valid_exit(rooms["Parking"]["exits"], "east")
     True
     """
-    pass
+    from map import rooms
+
+    roomlist = list(rooms.keys())[0]
+    isValid = False
+
+    if exits[user_input] in rooms[roomlist]:
+        isValid = True
+    return isValid
+        
 
 
 def menu(exits):
@@ -183,7 +194,19 @@ def menu(exits):
         # Check if the input makes sense (is valid exit)
             # If so, return the player's choice
 
+        print_menu(exits);
 
+        togo = str(input("Where would you like to go?"));
+        togo = normalise_input(togo);
+        print(togo);
+        checkInput = is_valid_exit(exits,togo);
+        
+        while checkInput == False:
+            togo = str(input("Where would you like to go?"));
+            togo = normalise_input(togo);
+            checkInput = is_valid_exit(togo);
+        return togo 
+        
 
 
 def move(exits, direction):
@@ -200,6 +223,7 @@ def move(exits, direction):
     """
     pass
 
+    print(direction)
 
 # This is the entry point of our program
 def main():
@@ -212,7 +236,7 @@ def main():
         display_room(current_room)
 
         # What are the possible exits from the current room?
-        exits = current_room["exits"]
+        exits = current_room['exits']
 
         # Show the menu with exits and ask the player
         direction = menu(exits)
