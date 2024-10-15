@@ -17,8 +17,8 @@ def remove_punct(text):
     >>> remove_punct(",go!So.?uTh")
     'goSouTh'
     """
-    pass # The pass statement does nothing. Replace it with the body of your function.
-    
+    user_input = text.translate(str.maketrans('','', string.punctuation))
+    return user_input
     
 def remove_spaces(text):
     """This function is used to remove leading and trailing spaces from a string.
@@ -30,13 +30,14 @@ def remove_spaces(text):
     >>> remove_spaces("  Python  is  easy!   ")
     'Python  is  easy!'
     >>> remove_spaces("Python is easy!")
-    'Python is easy!'   
+    'Python is easy!'
     >>> remove_spaces("")
     ''
     >>> remove_spaces("   ")
     ''
     """
-    pass
+    user_input = text.strip()
+    return user_input
 
 
 def normalise_input(user_input):
@@ -51,9 +52,10 @@ def normalise_input(user_input):
     >>> normalise_input("HELP!!!!!!!")
     'help'
     """ 
-    user_input = user_input.translate(str.maketrans('','', string.punctuation))
-    user_input = user_input.strip().lower();
-    
+    user_input = remove_punct(user_input);
+    user_input = remove_spaces(user_input);
+    user_input = user_input.lower()
+
     return user_input
 
     
@@ -98,8 +100,14 @@ def exit_leads_to(exits, direction):
     >>> exit_leads_to(rooms["Tutor"]["exits"], "west")
     'Reception'
     """
-    pass
+    leadsTo = exits[direction]
     
+    from map import rooms
+    
+    getName = rooms[leadsTo]
+    getName = getName["name"]
+    
+    return getName
 
 def print_menu_line(direction, leads_to):
     """This function prints a line of a menu of exits. It takes two strings: a
@@ -203,7 +211,7 @@ def menu(exits):
         while checkInput == False:
             togo = str(input("Where would you like to go?"));
             togo = normalise_input(togo);
-            checkInput = is_valid_exit(togo);
+            checkInput = is_valid_exit(exits,togo);
         return togo 
         
 
@@ -220,9 +228,13 @@ def move(exits, direction):
     >>> move(rooms["Reception"]["exits"], "west") == rooms["Office"]
     False
     """
-    pass
+    from map import rooms
 
-    print(direction)
+    toMove = exits[direction]
+    
+    room = rooms[toMove]
+    
+    return room
 
 # This is the entry point of our program
 def main():
